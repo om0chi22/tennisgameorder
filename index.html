@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="theme-color" content="#3182ce">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>テニス対戦表ジェネレーター</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎾</text></svg>">
+</head>
+<body>
+  <div class="container">
+    <h1>🎾 テニス対戦表ジェネレーター</h1>
+
+    <div class="settings">
+      <div class="setting-group">
+        <label>対戦形式</label>
+        <div class="toggle-group">
+          <button id="btn-singles" class="toggle-btn active" data-mode="singles">シングルス</button>
+          <button id="btn-doubles" class="toggle-btn" data-mode="doubles">ダブルス</button>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-group">
+          <label for="player-count">参加人数</label>
+          <input type="number" id="player-count" min="2" max="30" value="8">
+        </div>
+        <div class="setting-group">
+          <label for="court-count">コート面数</label>
+          <input type="number" id="court-count" min="1" max="10" value="2">
+        </div>
+        <div class="setting-group">
+          <label for="round-count">ラウンド数</label>
+          <input type="number" id="round-count" min="1" max="50" value="10">
+        </div>
+      </div>
+
+      <button id="btn-generate" class="btn-generate">対戦表を生成</button>
+      <p id="error-message" class="error-message" hidden></p>
+    </div>
+
+    <div id="result" class="result" hidden>
+      <div class="result-header">
+        <h2>対戦表</h2>
+        <div class="result-actions">
+          <button id="btn-print" class="btn-secondary" onclick="window.print()">🖨️ 印刷</button>
+        </div>
+      </div>
+
+      <div class="stats-summary" id="stats-summary"></div>
+
+      <div class="table-scroll">
+        <table id="match-table" class="match-table">
+          <thead id="match-thead"></thead>
+          <tbody id="match-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
