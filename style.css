@@ -347,6 +347,37 @@ input[type="text"]::placeholder {
   white-space: nowrap;
 }
 
+/* ===== Checkbox Column ===== */
+.check-col {
+  width: 40px;
+  padding: 0.55rem 0.5rem;
+}
+
+.round-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #3182ce;
+  margin: 0;
+}
+
+.match-table tbody tr.completed {
+  background: #f0fdf4;
+  opacity: 0.7;
+}
+
+.match-table tbody tr.completed:hover {
+  background: #dcfce7;
+  opacity: 0.8;
+}
+
+.match-table tbody tr.completed .round-cell,
+.match-table tbody tr.completed .match-cell {
+  text-decoration: line-through;
+  color: #6b7280;
+}
+
+
 /* ===== Print ===== */
 @media print {
   body {
@@ -368,6 +399,11 @@ input[type="text"]::placeholder {
   }
   .table-scroll {
     overflow: visible;
+  }
+  /* Hide checkboxes in print */
+  .check-col,
+  .round-checkbox {
+    display: none;
   }
 }
 

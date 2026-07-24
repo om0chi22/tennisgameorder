@@ -267,7 +267,7 @@
 
   function renderTable(rounds, playerCount, courtCount, playersPerMatch) {
     // Header
-    let headerHTML = "<tr><th>R</th>";
+    let headerHTML = "<tr><th class=\"check-col\">✓</th><th>R</th>";
     for (let c = 0; c < courtCount; c++) {
       headerHTML += `<th>コート ${c + 1}</th>`;
     }
@@ -278,7 +278,9 @@
     let bodyHTML = "";
     for (let r = 0; r < rounds.length; r++) {
       const round = rounds[r];
-      bodyHTML += `<tr><td class="round-cell">${r + 1}</td>`;
+      bodyHTML += `<tr>`;
+      bodyHTML += `<td class="check-col"><input type="checkbox" class="round-checkbox" id="check-${r}" aria-label="ラウンド${r + 1}完了"></td>`;
+      bodyHTML += `<td class="round-cell">${r + 1}</td>`;
 
       for (const court of round.courts) {
         if (playersPerMatch === 2) {
@@ -300,6 +302,19 @@
       bodyHTML += "</tr>";
     }
     matchTbody.innerHTML = bodyHTML;
+
+    // Add event listeners for checkboxes to toggle row completed state
+    const checkboxes = matchTbody.querySelectorAll(".round-checkbox");
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", function () {
+        const row = this.closest("tr");
+        if (this.checked) {
+          row.classList.add("completed");
+        } else {
+          row.classList.remove("completed");
+        }
+      });
+    });
   }
 
   function renderStats(rounds, playerCount) {
