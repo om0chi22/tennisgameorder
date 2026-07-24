@@ -7,6 +7,7 @@
   const playerCountInput = document.getElementById("player-count");
   const courtCountInput = document.getElementById("court-count");
   const roundCountInput = document.getElementById("round-count");
+  const nameInputsContainer = document.getElementById("name-inputs");
   const btnGenerate = document.getElementById("btn-generate");
   const errorMessage = document.getElementById("error-message");
   const resultSection = document.getElementById("result");
@@ -15,6 +16,7 @@
   const matchTbody = document.getElementById("match-tbody");
 
   let mode = "singles"; // "singles" | "doubles"
+  let playerNames = []; // Store player names
 
   // ===== Toggle Mode =====
   btnSingles.addEventListener("click", () => {
@@ -28,6 +30,39 @@
     btnDoubles.classList.add("active");
     btnSingles.classList.remove("active");
   });
+
+  // ===== Update Name Inputs on Player Count Change =====
+  playerCountInput.addEventListener("input", updateNameInputs);
+
+  function updateNameInputs() {
+    const count = parseInt(playerCountInput.value, 10);
+    if (isNaN(count) || count < 2 || count > 30) return;
+
+    nameInputsContainer.innerHTML = "";
+
+    for (let i = 0; i < count; i++) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "name-input-wrapper";
+
+      const label = document.createElement("label");
+      label.textContent = `P${i + 1}`;
+      label.setAttribute("for", `player-name-${i}`);
+
+      const input = document.createElement("input");
+      input.type = "text";
+      input.id = `player-name-${i}`;
+      input.placeholder = `${i + 1}`;
+      input.maxLength = 20;
+      input.value = playerNames[i] || "";
+
+      wrapper.appendChild(label);
+      wrapper.appendChild(input);
+      nameInputsContainer.appendChild(wrapper);
+    }
+  }
+
+  // Initialize name inputs on load
+  updateNameInputs();
 
   // ===== Generate =====
   btnGenerate.addEventListener("click", generate);
@@ -48,6 +83,14 @@
     const playerCount = parseInt(playerCountInput.value, 10);
     const courtCount = parseInt(courtCountInput.value, 10);
     const roundCount = parseInt(roundCountInput.value, 10);
+
+    // Collect player names
+    playerNames = [];
+    for (let i = 0; i < playerCount; i++) {
+      const input = document.getElementById(`player-name-${i}`);
+      const name = input ? input.value.trim() : "";
+      playerNames.push(name || `${i + 1}`); // Default to number if empty
+    }
 
     const playersPerMatch = mode === "singles" ? 2 : 4;
     const minPlayers = playersPerMatch;
@@ -219,7 +262,7 @@
 
   // ===== Rendering =====
   function playerLabel(id) {
-    return String(id + 1);
+    return playerNames[id] || String(id + 1);
   }
 
   function renderTable(rounds, playerCount, courtCount, playersPerMatch) {
